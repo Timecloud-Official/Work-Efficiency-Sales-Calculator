@@ -33,7 +33,7 @@
 
         <label class="label_content" for="time">Time Wasted</label>
         <div class="wasted_cont">
-            <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes">
+            <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes" oninput="calcSavings()">
             <div class="dropdown">
                 <button onclick="dropdown()" class="dropbtn" id="dropbtn">per day &#9661</button>
                 <div id="per_dropdown" class="dropdown-content">
@@ -43,26 +43,27 @@
             </div>
         </div>
         <label class="label_content" for="employee">Number of Employees</label>
-        <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1"> 
+        <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1" oninput="calcSavings()"> 
 
         <label class="label_content" for="pay">Pay per Hour</label>
         <input class="val_inp" id="pay_inp" size="20" name="pay_inp" value="" type="text" oninput="calcSavings()">
 
 
-        <div class="spacer"></div>
+        <div class="spacer" id="spacer"></div>
 
-        <div class="vert_layout">
-            <div class="results_cont">
-                <label class="label_results" for="savings_per_employee">Savings per Employee: </label>
-            </div>
-            <div class="results_cont">
-                <label class="label_results" for="savings_annual">Savings Annually:</label>
-            </div>
+        <div class="results_cont">
+            <label class="label_results" for="savings_per_employee">Savings per Employee per Week: </label>
+            <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
+            <label class="label_results" for="savings_annual">Savings Annually:</label>
+            <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
         </div>
 
     </div>
 
     <script>
+        var per = "per day";
+        var shown = false;
+
         function calcSavings() {
             var wastedStr = document.getElementById("time_inp").value;
 
@@ -70,12 +71,77 @@
 
             var perHourStr = document.getElementById("pay_inp").value;
 
-            console.log(wastedStr, employeesStr, perHourStr);
+            if (wastedStr == "") {
+                var wasted = 15;
+                per = "per day"
+            } else {
+                var wasted = parseInt(wastedStr);
+            }
+
+            if (parseInt(employeesStr) > 0) {
+                var employees = parseInt(employeesStr);
+            } else {
+                return; // Invalid Employee count
+            }
+
+            if (perHourStr.includes('$')) {
+                var payPerHour = parseFloat(perHourStr.split('$')[1]);
+            } else {
+                try {
+                    var payPerHour = parseFloat(perHourStr);
+                    // Float.parseFloat(perHourStr);
+                } catch (NumberFormatException) {
+                    return;
+                }
+
+                if (isNaN(payPerHour)) {
+                    return;
+                }
+            }
+
+            if (per == "per week") {
+                var multi = 1;
+            } else if (per == "per day") {
+                var multi = 5;
+            }
+            
+            var savings_per_employee = ((wasted * multi) * payPerHour) / 60;
+            var savings_annual = savings_per_employee * employees * 52;
+            savings_per_employee = numberWithCommas(savings_per_employee.toFixed(2));
+            savings_annual = numberWithCommas(savings_annual.toFixed(2));
+
+            document.getElementById("savings_per_employee_inp").value = savings_per_employee + " $";
+            document.getElementById("savings_annual_inp").value = savings_annual+ " $";
+            
+            toggleElements();
+
+
+            console.log(wasted, employees, payPerHour);
+        }
+
+        function toggleElements() {
+            if (!shown) {
+                document.getElementById("spacer").classList.toggle("show");
+
+                var results = document.getElementsByClassName("results_cont");
+
+                for(var i =0; i <results.length; i++) {
+                    results[i].classList.toggle("show");
+                }
+                shown = true;
+            }
+            
+        }
+
+        // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
         function updateButton(inpStr) {
             document.getElementById("dropbtn").innerHTML = inpStr +  " &#9661";
-
+            per = inpStr;
+            calcSavings();
         }
     </script>
 </body>
