@@ -1,25 +1,82 @@
  <!DOCTYPE html>
 <html>
 <head>
-
+    <!-- <link rel="stylesheet" id="dropdown-css" href="./dropdown.css"> -->
+    <link rel="stylesheet" id="main-css" href="./main.css">
+    <script id="dropdown-js" src="./dropdown.js"></script>
 </head>
 <body>
     <p>Page in development</p>
 
     <div class='employee_per_week_calc'>
-        <div class='time_per_day_div'>
-            <label for="time">Time Wasted</label>
-            <input id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="mins">
+        <!-- <div class='vert_layout' id="vert_layout_1">
+            <label class="label_content" for="time">Time Wasted</label>
+            <div class="wasted_cont">
+                <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes">
+                <div class="dropdown">
+                    <button onclick="dropdown()" class="dropbtn" id="dropbtn">per day &#9661</button>
+                    <div id="per_dropdown" class="dropdown-content">
+                        <a onclick="updateButton('per day')">per day</a>
+                        <a onclick="updateButton('per week')">per week</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class='no_employees_div'>
-            <label for="employee">Number of Employees</label>
-            <input id="employee_inp" size="20" name="employee_inp" value="" type="number">
+        <div class='vert_layout'>
+            <label class="label_content" for="employee">Number of Employees</label>
+            <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1"> 
         </div>
-        <div>
-            <label for="pay">Payrate</label>
-            <input id="pay_inp" size="20" name="pay_inp" value="" type="text">
+        <div class='vert_layout'>
+            <label class="label_content" for="pay">Pay per Hour</label>
+            <input class="val_inp" id="pay_inp" size="20" name="pay_inp" value="" type="text" oninput="calcSavings()">
+        </div> -->
+
+        <label class="label_content" for="time">Time Wasted</label>
+        <div class="wasted_cont">
+            <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes">
+            <div class="dropdown">
+                <button onclick="dropdown()" class="dropbtn" id="dropbtn">per day &#9661</button>
+                <div id="per_dropdown" class="dropdown-content">
+                    <a onclick="updateButton('per day')">per day</a>
+                    <a onclick="updateButton('per week')">per week</a>
+                </div>
+            </div>
+        </div>
+        <label class="label_content" for="employee">Number of Employees</label>
+        <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1"> 
+
+        <label class="label_content" for="pay">Pay per Hour</label>
+        <input class="val_inp" id="pay_inp" size="20" name="pay_inp" value="" type="text" oninput="calcSavings()">
+
+
+        <div class="spacer"></div>
+
+        <div class="vert_layout">
+            <div class="results_cont">
+                <label class="label_results" for="savings_per_employee">Savings per Employee: </label>
+            </div>
+            <div class="results_cont">
+                <label class="label_results" for="savings_annual">Savings Annually:</label>
+            </div>
         </div>
 
     </div>
+
+    <script>
+        function calcSavings() {
+            var wastedStr = document.getElementById("time_inp").value;
+
+            var employeesStr = document.getElementById("employee_inp").value;
+
+            var perHourStr = document.getElementById("pay_inp").value;
+
+            console.log(wastedStr, employeesStr, perHourStr);
+        }
+
+        function updateButton(inpStr) {
+            document.getElementById("dropbtn").innerHTML = inpStr +  " &#9661";
+
+        }
+    </script>
 </body>
 </html>
