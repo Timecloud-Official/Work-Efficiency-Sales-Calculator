@@ -56,6 +56,7 @@
             <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
             <label class="label_results" for="savings_annual">Savings Annually:</label>
             <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
+            <!-- <p>Assuming 1 hour per week per employee</p> -->
         </div>
 
     </div>
@@ -81,6 +82,7 @@
             if (parseInt(employeesStr) > 0) {
                 var employees = parseInt(employeesStr);
             } else {
+                toggleElements(false);
                 return; // Invalid Employee count
             }
 
@@ -91,10 +93,12 @@
                     var payPerHour = parseFloat(perHourStr);
                     // Float.parseFloat(perHourStr);
                 } catch (NumberFormatException) {
+                    toggleElements(false);
                     return;
                 }
 
                 if (isNaN(payPerHour)) {
+                    toggleElements(false);
                     return;
                 }
             }
@@ -113,14 +117,14 @@
             document.getElementById("savings_per_employee_inp").value = savings_per_employee + " $";
             document.getElementById("savings_annual_inp").value = savings_annual+ " $";
             
-            toggleElements();
+            toggleElements(true);
 
 
             console.log(wasted, employees, payPerHour);
         }
 
-        function toggleElements() {
-            if (!shown) {
+        function toggleElements(setPoint) {
+            if (!shown == setPoint) {
                 document.getElementById("spacer").classList.toggle("show");
 
                 var results = document.getElementsByClassName("results_cont");
@@ -128,7 +132,7 @@
                 for(var i =0; i <results.length; i++) {
                     results[i].classList.toggle("show");
                 }
-                shown = true;
+                shown = !shown;
             }
             
         }
