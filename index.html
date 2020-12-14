@@ -3,31 +3,54 @@
 <head>
     <!-- <link rel="stylesheet" id="dropdown-css" href="./dropdown.css"> -->
     <link rel="stylesheet" id="main-css" href="./main.css">
+    <link rel="stylesheet" id="tabs-css" href="./tabs.css">
     <script id="dropdown-js" src="./dropdown.js"></script>
+    <script id="tabs-js" src="./tabs.js"></script>
 </head>
 <body>
     <!-- <p>Page in development</p> -->
-
-    <div class='employee_per_week_calc'>
-
-        <label class="label_content" for="time">Time Wasted</label>
-        <div class="wasted_cont">
-            <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes" oninput="calcSavings()">
-            <div class="dropdown">
-                <button onclick="dropdown()" class="dropbtn" id="dropbtn">per day &#9661</button>
-                <div id="per_dropdown" class="dropdown-content">
-                    <a onclick="updateButton('per day')">per day</a>
-                    <a onclick="updateButton('per week')">per week</a>
+    <div class="all_content">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'per_employee_content')" id="per_employee_button">Per Employee</button>
+            <button class="tablinks" onclick="openTab(event, 'GrossAP_content')" id="GrossAP_button">Gross Annual Payroll</button>
+            
+        </div>
+        <div class="tab_content" id="per_employee_content" style="display: none;">
+            <label class="label_content" for="time">Time Wasted</label>
+            <div class="wasted_cont">
+                <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes" oninput="calcSavings()">
+                <div class="dropdown">
+                    <button onclick="per_dropdown()" class="dropbtn" id="per_dropbtn">per day &#9661</button>
+                    <div id="per_dropdown" class="dropdown-content">
+                        <a onclick="updateButton('per_dropbtn', 'per day')">per day</a>
+                        <a onclick="updateButton('per_dropbtn', 'per week')">per week</a>
+                    </div>
                 </div>
             </div>
+            <label class="label_content" for="employee">Number of Employees</label>
+            <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1" oninput="calcSavings()"> 
+
+            <label class="label_content" for="pay">Pay per Hour</label>
+            <input class="val_inp" id="pay_inp" size="20" name="pay_inp" value="" type="text" oninput="calcSavings()">
         </div>
-        <label class="label_content" for="employee">Number of Employees</label>
-        <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1" oninput="calcSavings()"> 
+        <div class="tab_content" id="GrossAP_content" style="display: none;">
+            <label class="label_content" for="Gross">Gross Payroll</label>
+            <div class="wasted_cont">
+                <input class="val_inp" id='gross_inp' size="20" name='time_inp' value="" type="text" oninput="timeSavings()">
+                <div class="dropdown">
+                    <button onclick="time_dropdown()" class="dropbtn" id="time_dropbtn">Fortnightly &#9661</button>
+                    <div id="time_dropdown" class="dropdown-content">
+                        <a onclick="updateButton('time_dropbtn', 'Weekly')">Weekly</a>
+                        <a onclick="updateButton('time_dropbtn', 'Fortnightly')">Fortnightly</a>
+                        <a onclick="updateButton('time_dropbtn', 'Monthly')">Monthly</a>
+                        <a onclick="updateButton('time_dropbtn', 'Annually')">Annually</a>
+                    </div>
+                </div>
+            </div>
+            <label class="label_content" for="employee">Number of Employees</label>
+            <input class="val_inp" id="employee_inp_gross" size="20" name="employee_inp" value="" type="number" min="1" placeholder="Optional" oninput="timeSavings()"> 
 
-        <label class="label_content" for="pay">Pay per Hour</label>
-        <input class="val_inp" id="pay_inp" size="20" name="pay_inp" value="" type="text" oninput="calcSavings()">
-
-
+        </div>
         <div class="spacer" id="spacer"></div>
 
         <div class="results_cont">
@@ -35,13 +58,12 @@
             <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
             <label class="label_results" for="savings_annual">Savings Annually:</label>
             <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
-            <!-- <p>Assuming 1 hour per week per employee</p> -->
         </div>
-
     </div>
 
     <script>
         var per = "per day";
+        var time = "fortnightly"
         var shown = false;
 
         function calcSavings() {
@@ -97,10 +119,60 @@
             document.getElementById("savings_annual_inp").value = savings_annual+ " $";
             
             toggleElements(true);
-
-
-            console.log(wasted, employees, payPerHour);
         }
+        
+        function timeSavings() {
+            var payrollStr = document.getElementById("gross_inp").value;
+
+            var employeesStr = document.getElementById("employee_inp_gross").value;
+            
+            if (payrollStr.includes('$')) {
+                payrollStr = payrollStr.split('$')[1];
+            }
+            payrollStr = payrollStr.replace(',','');
+            var payrollTotal = parseFloat(payrollStr); 
+
+            if (isNaN(payrollTotal)) {
+                toggleElements(false);
+                return;
+            }
+
+            if (parseInt(employeesStr) > 0) {
+                var employees = parseInt(employeesStr);
+            } else {
+                var employees = 1;
+            }
+            var multi = 1;
+            switch(time) {
+                case "Weekly":
+                    multi = 52;
+                    break;
+                case "Fortnightly":
+                    multi = 26;
+                    break;
+                case "Monthly":
+                    multi = 12;
+                    break;
+                default:
+                    multi = 1;
+            }
+
+            var savings_annual = ((payrollTotal * multi) / 100) * 2.5;
+            var savings_per_employee = savings_annual / 52 / employees;
+            if (savings_per_employee == (savings_annual /52)) {
+                savings_per_employee = "--"
+            } else {
+                savings_per_employee = numberWithCommas(savings_per_employee.toFixed(2)) + " $";
+            }
+
+            savings_annual = numberWithCommas(savings_annual.toFixed(2));
+            
+            document.getElementById("savings_per_employee_inp").value = savings_per_employee;
+            document.getElementById("savings_annual_inp").value = savings_annual + " $";
+
+            toggleElements(true);
+        }
+
 
         function toggleElements(setPoint) {
             if (!shown == setPoint) {
@@ -121,10 +193,16 @@
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        function updateButton(inpStr) {
-            document.getElementById("dropbtn").innerHTML = inpStr +  " &#9661";
-            per = inpStr;
-            calcSavings();
+        function updateButton(id, inpStr) {
+            document.getElementById(id).innerHTML = inpStr +  " &#9661";
+            if (id == 'per_dropbtn') {
+                per = inpStr;
+                calcSavings();
+            } else if (id == 'time_dropbtn') {
+                time = inpStr;
+                timeSavings();
+            }
+            
         }
     </script>
 </body>
