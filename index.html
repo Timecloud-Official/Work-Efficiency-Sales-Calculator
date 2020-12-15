@@ -47,15 +47,14 @@
                     </div>
                 </div>
             </div>
-            <label class="label_content" for="employee">Number of Employees</label>
-            <input class="val_inp" id="employee_inp_gross" size="20" name="employee_inp" value="" type="number" min="1" placeholder="Optional" oninput="timeSavings()"> 
-
         </div>
         <div class="spacer" id="spacer"></div>
 
-        <div class="results_cont">
+        <div class="results_cont" id="results_employee">
             <label class="label_results" for="savings_per_employee">Savings per Employee per Week: </label>
             <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
+        </div>
+        <div class="results_cont" id="results_annual">
             <label class="label_results" for="savings_annual">Savings Annually:</label>
             <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
         </div>
@@ -118,13 +117,11 @@
             document.getElementById("savings_per_employee_inp").value = savings_per_employee + " $";
             document.getElementById("savings_annual_inp").value = savings_annual+ " $";
             
-            toggleElements(true);
+            showResults(false);
         }
         
         function timeSavings() {
             var payrollStr = document.getElementById("gross_inp").value;
-
-            var employeesStr = document.getElementById("employee_inp_gross").value;
             
             if (payrollStr.includes('$')) {
                 payrollStr = payrollStr.split('$')[1];
@@ -137,11 +134,6 @@
                 return;
             }
 
-            if (parseInt(employeesStr) > 0) {
-                var employees = parseInt(employeesStr);
-            } else {
-                var employees = 1;
-            }
             var multi = 1;
             switch(time) {
                 case "Weekly":
@@ -158,47 +150,69 @@
             }
 
             var savings_annual = ((payrollTotal * multi) / 100) * 2.5;
-            var savings_per_employee = savings_annual / 52 / employees;
-            if (savings_per_employee == (savings_annual /52) || savings_per_employee < 0.01) {
-                savings_per_employee = "--"
-            } else {
-                savings_per_employee = numberWithCommas(savings_per_employee.toFixed(2)) + " $";
-            }
 
             savings_annual = numberWithCommas(savings_annual.toFixed(2));
-            
-            document.getElementById("savings_per_employee_inp").value = savings_per_employee;
+
             document.getElementById("savings_annual_inp").value = savings_annual + " $";
 
-            toggleElements(true);
+            showResults(true);
         }
 
 
-        function toggleElements(setPoint) {
-            if (!shown == setPoint) {
-                document.getElementById("spacer").classList.toggle("show");
 
-                var results = document.getElementsByClassName("results_cont");
+        // function toggleElements(setPoint) {
+        //     if (!shown == setPoint) {
+        //         document.getElementById("spacer").classList.toggle("show");
 
-                for(var i =0; i <results.length; i++) {
-                    results[i].classList.toggle("show");
+        //         // var results = document.getElementsByClassName("results_cont");
+        //         var results_employee = document.getElementById("savings_per_employee_inp");
+        //         console.log(results_employee.value);
+        //         if (results_employee.value != '') {
+        //             document.getElementById("results_employee").classList.toggle("show");
+        //         }
+        //         document.getElementById("results_annual").classList.toggle("show");
+
+        //         // for(var i =0; i <results.length; i++) {
+        //         //     results[i].classList.toggle("show");
+        //         // }
+        //         shown = !shown;
+        //     }
+        // }
+        function showResults(intelligent) {
+            document.getElementById("spacer").style.display = "block";
+
+            if (intelligent) {
+                if (document.getElementById("savings_per_employee_inp").value != '') { // If input has a value set ie. something calculated
+                    document.getElementById("results_employee").style.display = "block";
+                } else {
+                    document.getElementById("results_employee").style.display = "none";
                 }
-                shown = !shown;
+            } else { // Just blindly turn it on
+                document.getElementById("results_employee").style.display = "block";
             }
+
+            document.getElementById("results_annual").style.display = "block";
         }
+
 
         function hideResults() {
-            toggleElements(false);
+            document.getElementById("spacer").style.display = "none";
+
+            document.getElementById("results_employee").style.display = "none";
+
+            document.getElementById("results_annual").style.display = "none";
         }
 
         function hideResultsIfEmpty(switchTo) {
             if (switchTo == "per_employee_content") {
                 calcSavings();
             } else if (switchTo == 'GrossAP_content') {
+                // console.log(document.getElementById("savings_per_employee_inp").value);
+                document.getElementById("savings_per_employee_inp").value = '';
                 timeSavings();
             }
 
-            var val = document.getElementById("savings_annual_inp").val;
+            var val = document.getElementById("savings_annual_inp").value;
             if (val == '') {
                 hideResults();
             }
