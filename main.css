@@ -1,11 +1,13 @@
-.employee_per_week_calc {
+.all_content {
     border-radius: 10px;
     background-color: rgb(69, 133, 212);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
     font-weight: normal;
     padding: 6px 12px;
-    padding-bottom: 18px;
+    /* padding-bottom: 18px; */
+
+    min-width: 350px;
     /* border: rgb(43, 65, 138);
     border-style: solid;
     border-width: 2px; */
@@ -73,10 +75,18 @@
     width: 55%;
 }
 
+#gross_inp {
+    width: 65%;
+}
+
 #savings_annual_inp {
     font-weight: bold;
 }
 
+.tab_content {
+    padding: 12px 0px;
+    transition: ease-in;
+}
 
 .label_content {
     width: 100%;
@@ -114,6 +124,7 @@
     font-stretch: normal;
     /* background-color: rgb(252, 252, 252); */
     color:  white;
+
 }
 
 .results_cont {
