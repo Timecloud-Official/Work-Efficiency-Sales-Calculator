@@ -4,6 +4,7 @@
     <!-- <link rel="stylesheet" id="dropdown-css" href="./dropdown.css"> -->
     <link rel="stylesheet" id="main-css" href="./main.css">
     <link rel="stylesheet" id="tabs-css" href="./tabs.css">
+    <link rel='stylesheet' id='fl-builder-google-fonts-b2ebb4e970bb60e66eeb63bfd89281ad-css' href='https://fonts.googleapis.com/css?family=Poppins%3A400&#038;ver=5.5.3' media='all'/>
     <script id="dropdown-js" src="./dropdown.js"></script>
     <script id="tabs-js" src="./tabs.js"></script>
 </head>
@@ -55,7 +56,7 @@
             <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
         </div>
         <div class="results_cont" id="results_annual">
-            <label class="label_results" for="savings_annual">Savings Annually:</label>
+            <label class="label_results" for="savings_annual" id="savings_annual_lbl">Savings Annually:</label>
             <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
         </div>
     </div>
@@ -73,7 +74,7 @@
             var perHourStr = document.getElementById("pay_inp").value;
 
             if (wastedStr == "") {
-                var wasted = 15;
+                var wasted = 12;
                 per = "per day"
             } else {
                 var wasted = parseInt(wastedStr);
@@ -159,25 +160,6 @@
         }
 
 
-
-        // function toggleElements(setPoint) {
-        //     if (!shown == setPoint) {
-        //         document.getElementById("spacer").classList.toggle("show");
-
-        //         // var results = document.getElementsByClassName("results_cont");
-        //         var results_employee = document.getElementById("savings_per_employee_inp");
-        //         console.log(results_employee.value);
-        //         if (results_employee.value != '') {
-        //             document.getElementById("results_employee").classList.toggle("show");
-        //         }
-        //         document.getElementById("results_annual").classList.toggle("show");
-
-        //         // for(var i =0; i <results.length; i++) {
-        //         //     results[i].classList.toggle("show");
-        //         // }
-        //         shown = !shown;
-        //     }
-        // }
         function showResults(intelligent) {
             document.getElementById("spacer").style.display = "block";
 
