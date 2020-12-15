@@ -83,7 +83,7 @@
             if (parseInt(employeesStr) > 0) {
                 var employees = parseInt(employeesStr);
             } else {
-                toggleElements(false);
+                blankResultsAndHide();
                 return; // Invalid Employee count
             }
 
@@ -94,12 +94,12 @@
                     var payPerHour = parseFloat(perHourStr);
                     // Float.parseFloat(perHourStr);
                 } catch (NumberFormatException) {
-                    toggleElements(false);
+                    blankResultsAndHide();
                     return;
                 }
 
                 if (isNaN(payPerHour)) {
-                    toggleElements(false);
+                    blankResultsAndHide();
                     return;
                 }
             }
@@ -133,7 +133,7 @@
             var payrollTotal = parseFloat(payrollStr); 
 
             if (isNaN(payrollTotal)) {
-                toggleElements(false);
+                blankResultsAndHide();
                 return;
             }
 
@@ -159,7 +159,7 @@
 
             var savings_annual = ((payrollTotal * multi) / 100) * 2.5;
             var savings_per_employee = savings_annual / 52 / employees;
-            if (savings_per_employee == (savings_annual /52)) {
+            if (savings_per_employee == (savings_annual /52) || savings_per_employee < 0.01) {
                 savings_per_employee = "--"
             } else {
                 savings_per_employee = numberWithCommas(savings_per_employee.toFixed(2)) + " $";
@@ -185,9 +185,30 @@
                 }
                 shown = !shown;
             }
-            
         }
 
+        function hideResults() {
+            toggleElements(false);
+        }
+
+        function hideResultsIfEmpty(switchTo) {
+            if (switchTo == "per_employee_content") {
+                calcSavings();
+            } else if (switchTo == 'GrossAP_content') {
+                timeSavings();
+            }
+
+            var val = document.getElementById("savings_annual_inp").val;
+            if (val == '') {
+                hideResults();
+            }
+        }
+
+        function blankResultsAndHide() {
+            document.getElementById("savings_per_employee_inp").value = '';
+            document.getElementById("savings_annual_inp").value = '';
+            hideResults();
+        }
         // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

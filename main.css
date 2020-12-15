@@ -85,6 +85,7 @@
 
 .tab_content {
     padding: 12px 0px;
+    transition: ease-in;
 }
 
 .label_content {

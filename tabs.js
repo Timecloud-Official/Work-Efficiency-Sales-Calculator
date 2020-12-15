@@ -20,5 +20,5 @@ function openTab(evt, tabName) {
     
     evt.currentTarget.className += " active";
 
-    toggleElements(false);
+    hideResultsIfEmpty(tabName);
 }
