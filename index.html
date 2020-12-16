@@ -156,26 +156,8 @@
             savings_annual = numberWithCommas(savings_annual.toFixed(2));
 
             document.getElementById("savings_annual_inp").value = savings_annual + " $";
-
-            // showResults(true);
         }
 
-
-        // function showResults(intelligent) {
-        //     document.getElementById("spacer").style.display = "block";
-
-        //     if (intelligent) {
-        //         if (document.getElementById("savings_week_inp").value != '') { // If input has a value set ie. something calculated
-        //             document.getElementById("results_employee").style.display = "block";
-        //         } else {
-        //             document.getElementById("results_employee").style.display = "none";
-        //         }
-        //     } else { // Just blindly turn it on
-        //         document.getElementById("results_employee").style.display = "block";
-        //     }
-
-        //     document.getElementById("results_annual").style.display = "block";
-        // }
 
         function showResultsEmployee() {
             document.getElementById("results_employee").style.display = "block";
@@ -184,15 +166,6 @@
         function hideResultsEmployee() {
             document.getElementById("results_employee").style.display = "none"
         }
-
-
-        // function hideResults() {
-        //     document.getElementById("spacer").style.display = "none";
-
-        //     document.getElementById("results_employee").style.display = "none";
-
-        //     document.getElementById("results_annual").style.display = "none";
-        // }
 
         function hideResultsIfEmpty(switchTo) {
             if (switchTo == "per_employee_content") {
@@ -204,17 +177,8 @@
                 timeSavings();
                 hideResultsEmployee();
             }
-
-            // var val = document.getElementById("savings_annual_inp").value;
-            // if (val == '') {
-            //     hideResults();
-            // }
         }
 
-        // function blankResultsAndHide() {
-        //     blankResults();
-        //     hideResults();
-        // }
 
         function blankResults() {
             document.getElementById("savings_week_inp").value = '';

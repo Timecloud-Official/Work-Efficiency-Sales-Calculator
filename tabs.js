@@ -21,9 +21,4 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 
     hideResultsIfEmpty(tabName);
-    // if (tabName == 'GrossAP_content') {
-    //     hideResultsEmployee();
-    // } else if (tabName =='per_employee_content') {
-    //     showResultsEmployee();
-    // }
 }
