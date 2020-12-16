@@ -52,7 +52,7 @@
         <div class="spacer" id="spacer"></div>
 
         <div class="results_cont" id="results_employee">
-            <label class="label_results" for="savings_per_employee">Savings per Employee per Week: </label>
+            <label class="label_results" for="savings_per_employee">Savings per Week: </label>
             <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
         </div>
         <div class="results_cont" id="results_annual">
@@ -110,9 +110,9 @@
                 var multi = 5;
             }
             
-            var savings_per_employee = ((wasted * multi) * payPerHour) / 60;
-            var savings_annual = savings_per_employee * employees * 52;
-            savings_per_employee = numberWithCommas(savings_per_employee.toFixed(2));
+            var savings_week = ((wasted * multi) * payPerHour) / 60 * employees;
+            var savings_annual = savings_week * 52;
+            savings_per_employee = numberWithCommas(savings_week.toFixed(2));
             savings_annual = numberWithCommas(savings_annual.toFixed(2));
 
             document.getElementById("savings_per_employee_inp").value = savings_per_employee + " $";
