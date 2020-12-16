@@ -16,7 +16,7 @@
             <button class="tablinks" onclick="openTab(event, 'GrossAP_content')" id="GrossAP_button">Gross Annual Payroll</button>
             
         </div>
-        <div class="tab_content" id="per_employee_content" style="display: none;">
+        <div class="tab_content" id="per_employee_content" style="display: block;">
             <label class="label_content" for="time">Time Wasted</label>
             <div class="wasted_cont">
                 <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes" oninput="calcSavings()">
@@ -84,7 +84,7 @@
             if (parseInt(employeesStr) > 0) {
                 var employees = parseInt(employeesStr);
             } else {
-                blankResultsAndHide();
+                blankResults();
                 return; // Invalid Employee count
             }
 
@@ -95,12 +95,12 @@
                     var payPerHour = parseFloat(perHourStr);
                     // Float.parseFloat(perHourStr);
                 } catch (NumberFormatException) {
-                    blankResultsAndHide();
+                    blankResults();
                     return;
                 }
 
                 if (isNaN(payPerHour)) {
-                    blankResultsAndHide();
+                    blankResults();
                     return;
                 }
             }
@@ -119,7 +119,7 @@
             document.getElementById("savings_week_inp").value = savings_week + " $";
             document.getElementById("savings_annual_inp").value = savings_annual+ " $";
             
-            showResults(false);
+            // showResults(false);
         }
         
         function timeSavings() {
@@ -132,7 +132,7 @@
             var payrollTotal = parseFloat(payrollStr); 
 
             if (isNaN(payrollTotal)) {
-                blankResultsAndHide();
+                blankResults();
                 return;
             }
 
@@ -156,56 +156,35 @@
             savings_annual = numberWithCommas(savings_annual.toFixed(2));
 
             document.getElementById("savings_annual_inp").value = savings_annual + " $";
-
-            showResults(true);
         }
 
 
-        function showResults(intelligent) {
-            document.getElementById("spacer").style.display = "block";
-
-            if (intelligent) {
-                if (document.getElementById("savings_week_inp").value != '') { // If input has a value set ie. something calculated
-                    document.getElementById("results_employee").style.display = "block";
-                } else {
-                    document.getElementById("results_employee").style.display = "none";
-                }
-            } else { // Just blindly turn it on
-                document.getElementById("results_employee").style.display = "block";
-            }
-
-            document.getElementById("results_annual").style.display = "block";
+        function showResultsEmployee() {
+            document.getElementById("results_employee").style.display = "block";
         }
 
-
-        function hideResults() {
-            document.getElementById("spacer").style.display = "none";
-
-            document.getElementById("results_employee").style.display = "none";
-
-            document.getElementById("results_annual").style.display = "none";
+        function hideResultsEmployee() {
+            document.getElementById("results_employee").style.display = "none"
         }
 
         function hideResultsIfEmpty(switchTo) {
             if (switchTo == "per_employee_content") {
                 calcSavings();
+                showResultsEmployee();
             } else if (switchTo == 'GrossAP_content') {
                 // console.log(document.getElementById("savings_week_inp").value);
                 document.getElementById("savings_week_inp").value = '';
                 timeSavings();
-            }
-
-            var val = document.getElementById("savings_annual_inp").value;
-            if (val == '') {
-                hideResults();
+                hideResultsEmployee();
             }
         }
 
-        function blankResultsAndHide() {
+
+        function blankResults() {
             document.getElementById("savings_week_inp").value = '';
             document.getElementById("savings_annual_inp").value = '';
-            hideResults();
         }
+
         // https://stackoverflow.com/questions/2901102/how-to-print-a-number-with-commas-as-thousands-separators-in-javascript
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
