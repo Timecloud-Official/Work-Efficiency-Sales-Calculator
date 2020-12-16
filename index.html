@@ -52,8 +52,8 @@
         <div class="spacer" id="spacer"></div>
 
         <div class="results_cont" id="results_employee">
-            <label class="label_results" for="savings_per_employee">Savings per Week: </label>
-            <input class="val_res" id="savings_per_employee_inp" name="savings_per_employee_inp" value="" type="text" disabled>
+            <label class="label_results" for="savings_week">Savings per Week: </label>
+            <input class="val_res" id="savings_week_inp" name="savings_week_inp" value="" type="text" disabled>
         </div>
         <div class="results_cont" id="results_annual">
             <label class="label_results" for="savings_annual" id="savings_annual_lbl">Savings Annually:</label>
@@ -112,10 +112,10 @@
             
             var savings_week = ((wasted * multi) * payPerHour) / 60 * employees;
             var savings_annual = savings_week * 52;
-            savings_per_employee = numberWithCommas(savings_week.toFixed(2));
+            savings_week = numberWithCommas(savings_week.toFixed(2));
             savings_annual = numberWithCommas(savings_annual.toFixed(2));
 
-            document.getElementById("savings_per_employee_inp").value = savings_per_employee + " $";
+            document.getElementById("savings_week_inp").value = savings_week + " $";
             document.getElementById("savings_annual_inp").value = savings_annual+ " $";
             
             showResults(false);
@@ -164,7 +164,7 @@
             document.getElementById("spacer").style.display = "block";
 
             if (intelligent) {
-                if (document.getElementById("savings_per_employee_inp").value != '') { // If input has a value set ie. something calculated
+                if (document.getElementById("savings_week_inp").value != '') { // If input has a value set ie. something calculated
                     document.getElementById("results_employee").style.display = "block";
                 } else {
                     document.getElementById("results_employee").style.display = "none";
@@ -189,8 +189,8 @@
             if (switchTo == "per_employee_content") {
                 calcSavings();
             } else if (switchTo == 'GrossAP_content') {
-                // console.log(document.getElementById("savings_per_employee_inp").value);
-                document.getElementById("savings_per_employee_inp").value = '';
+                // console.log(document.getElementById("savings_week_inp").value);
+                document.getElementById("savings_week_inp").value = '';
                 timeSavings();
             }
 
@@ -201,7 +201,7 @@
         }
 
         function blankResultsAndHide() {
-            document.getElementById("savings_per_employee_inp").value = '';
+            document.getElementById("savings_week_inp").value = '';
             document.getElementById("savings_annual_inp").value = '';
             hideResults();
         }
