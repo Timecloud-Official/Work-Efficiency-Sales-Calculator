@@ -13,7 +13,7 @@
     <div class="all_content">
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'per_employee_content')" id="per_employee_button">Per Employee</button>
-            <button class="tablinks" onclick="openTab(event, 'GrossAP_content')" id="GrossAP_button">Gross Annual Payroll</button>
+            <button class="tablinks" onclick="openTab(event, 'GrossAP_content')" id="GrossAP_button">Gross Payroll</button>
             
         </div>
         <div class="tab_content" id="per_employee_content" style="display: block;">
@@ -203,7 +203,7 @@
         }
 
         function sizingsSmaller() {
-            document.getElementById("GrossAP_button").textContent = "G.A.P";
+            document.getElementById("GrossAP_button").textContent = "G.P";
             document.getElementById("time_inp").style.width = "45%";
             document.getElementById("gross_inp").style.width = "45%";
         }
