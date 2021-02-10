@@ -134,7 +134,7 @@
             if (payrollStr.includes('$')) {
                 payrollStr = payrollStr.split('$')[1];
             }
-            payrollStr = payrollStr.replace(',','');
+            payrollStr = payrollStr.replace(/,/g,'');
             var payrollTotal = parseFloat(payrollStr); 
 
             if (isNaN(payrollTotal)) {
