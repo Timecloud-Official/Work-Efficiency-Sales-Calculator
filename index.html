@@ -63,20 +63,24 @@
     </div>
 
     <script>
-        var per = "per day";
+        var per = "per Day";
         var time = "Fortnightly"
         var shown = false;
 
         function calcSavings() {
             var wastedStr = document.getElementById("time_inp").value;
+            console.log(wastedStr);
 
             var employeesStr = document.getElementById("employee_inp").value;
+            console.log(employeesStr);
+
 
             var perHourStr = document.getElementById("pay_inp").value;
+            console.log(perHourStr);
 
             if (wastedStr == "") {
                 var wasted = 12;
-                per = "per day"
+                per = "per Day"
             } else {
                 var wasted = parseInt(wastedStr);
             }
@@ -105,10 +109,12 @@
                 }
             }
 
-            if (per == "per week") {
+            if (per == "per Week") {
                 var multi = 1;
-            } else if (per == "per day") {
+            } else if (per == "per Day") {
                 var multi = 5;
+            } else if (per == "per Fortnight") {
+                var multi = 0.5;
             }
             
             var savings_week = ((wasted * multi) * payPerHour) / 60 * employees;
