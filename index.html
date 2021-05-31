@@ -78,11 +78,11 @@
             var perHourStr = document.getElementById("pay_inp").value;
             console.log(perHourStr);
 
-            if (wastedStr == "") {
-                var wasted = 12;
-                per = "per Day"
-            } else {
+            if (parseInt(wastedStr) > 0) {
                 var wasted = parseInt(wastedStr);
+            } else {
+                blankResults();
+                return;
             }
 
             if (parseInt(employeesStr) > 0) {
