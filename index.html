@@ -1,64 +1,77 @@
  <!DOCTYPE html>
 <html>
 <head>
-    <!-- <link rel="stylesheet" id="dropdown-css" href="./dropdown.css"> -->
     <link rel="stylesheet" id="main-css" href="./main.css">
-    <link rel="stylesheet" id="tabs-css" href="./tabs.css">
     <link rel='stylesheet' id='fl-builder-google-fonts-b2ebb4e970bb60e66eeb63bfd89281ad-css' href='https://fonts.googleapis.com/css?family=Poppins%3A400&#038;ver=5.5.3' media='all'/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <script id="dropdown-js" src="./dropdown.js"></script>
     <script id="tabs-js" src="./tabs.js"></script>
 </head>
 <body>
-    <!-- <p>Page in development</p> -->
     <div class="all_content">
+        <div class="header_content">
+            <h2>Efficiency Calculator</h2>
+        </div>
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'per_employee_content')" id="per_employee_button">Per Employee</button>
-            <button class="tablinks" onclick="openTab(event, 'GrossAP_content')" id="GrossAP_button">Gross Payroll</button>
+            <button class="tablinks" onclick="openTab(event, 'per_employee_content')">Per Employee</button>
+            <button class="tablinks" onclick="openTab(event, 'GrossAP_content')">Gross Payroll</button>
+        </div>
+        <div class="all_tab_content">
             
-        </div>
-        <div class="tab_content" id="per_employee_content" style="display: block;">
-            <label class="label_content" for="time">Time Wasted</label>
-            <div class="wasted_cont">
-                <input class="val_inp" id='time_inp' size="20" name='time_inp' value="" type="text" placeholder="in minutes" oninput="calcSavings()">
-                <div class="dropdown">
-                    <button onclick="per_dropdown()" class="dropbtn" id="per_dropbtn">per Day &#9661</button>
-                    <div id="per_dropdown" class="dropdown-content">
-                        <a onclick="updateButton('per_dropbtn', 'per Day')">per Day</a>
-                        <a onclick="updateButton('per_dropbtn', 'per Week')">per Week</a>
-                        <a onclick="updateButton('per_dropbtn', 'per Fortnight')">per Fortnight</a>
+            <div class="tab_content" id="per_employee_content" style="display: block;">
+                <label for="time">Time Wasted:</label>
+                <div class="split-container">
+                    <div>
+                        <input id='time_inp' name='time_inp' value="" type="text" placeholder="in minutes" oninput="calcSavings()">
+                    </div>
+                    <div class="dropdown">
+                        <button onclick="per_dropdown()" class="dropbtn" id="per_dropbtn">
+                            per Day <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </button>                          
+                        <div id="per_dropdown" class="dropdown-content">
+                            <a onclick="updateButton('per_dropbtn', 'per Day')">per Day</a>
+                            <a onclick="updateButton('per_dropbtn', 'per Week')">per Week</a>
+                            <a onclick="updateButton('per_dropbtn', 'per Fortnight')">per Fortnight</a>
+                        </div>
+                    </div>
+                </div>
+                <label for="employee">Number of Employees:</label>
+                <input id="employee_inp" name="employee_inp" value="" type="number" min="1" oninput="calcSavings()"> 
+
+                <label for="pay">Pay per Hour:</label>
+                <input id="pay_inp" name="pay_inp" value="" type="text" oninput="calcSavings()">
+            </div>
+        
+            <div class="tab_content" id="GrossAP_content" style="display: none;">
+                <label for="Gross">Gross Payroll:</label>
+                <div class="split-container">
+                    <div>
+                        <input id='gross_inp' name='time_inp' value="" type="text" oninput="timeSavings()">
+                    </div>
+                    <div class="dropdown">
+                        <button onclick="time_dropdown()" class="dropbtn" id="time_dropbtn">
+                            Fortnightly <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </button>
+                        <div id="time_dropdown" class="dropdown-content">
+                            <a onclick="updateButton('time_dropbtn', 'Weekly')">Weekly</a>
+                            <a onclick="updateButton('time_dropbtn', 'Fortnightly')">Fortnightly</a>
+                            <a onclick="updateButton('time_dropbtn', 'Monthly')">Monthly</a>
+                            <a onclick="updateButton('time_dropbtn', 'Annually')">Annually</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            <label class="label_content" for="employee">Number of Employees</label>
-            <input class="val_inp" id="employee_inp" size="20" name="employee_inp" value="" type="number" min="1" oninput="calcSavings()"> 
 
-            <label class="label_content" for="pay">Pay per Hour</label>
-            <input class="val_inp" id="pay_inp" size="20" name="pay_inp" value="" type="text" oninput="calcSavings()">
-        </div>
-        <div class="tab_content" id="GrossAP_content" style="display: none;">
-            <label class="label_content" for="Gross">Gross Payroll</label>
-            <div class="wasted_cont">
-                <input class="val_inp" id='gross_inp' size="20" name='time_inp' value="" type="text" oninput="timeSavings()">
-                <div class="dropdown">
-                    <button onclick="time_dropdown()" class="dropbtn" id="time_dropbtn">Fortnightly &#9661</button>
-                    <div id="time_dropdown" class="dropdown-content">
-                        <a onclick="updateButton('time_dropbtn', 'Weekly')">Weekly</a>
-                        <a onclick="updateButton('time_dropbtn', 'Fortnightly')">Fortnightly</a>
-                        <a onclick="updateButton('time_dropbtn', 'Monthly')">Monthly</a>
-                        <a onclick="updateButton('time_dropbtn', 'Annually')">Annually</a>
-                    </div>
+            <div class="results">
+                <div id="results_employee">
+                    <label class="label_results" for="savings_week">Savings per Week:</label>
+                    <input class="val_res" id="savings_week_inp" name="savings_week_inp" value="" type="text" disabled>
+                </div>
+                <div id="results_annual">
+                    <label class="label_results" for="savings_annual">Savings Annually:</label>
+                    <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
                 </div>
             </div>
-        </div>
-        <div class="spacer" id="spacer"></div>
-
-        <div class="results_cont" id="results_employee">
-            <label class="label_results" for="savings_week">Savings per Week: </label>
-            <input class="val_res" id="savings_week_inp" name="savings_week_inp" value="" type="text" disabled>
-        </div>
-        <div class="results_cont" id="results_annual">
-            <label class="label_results" for="savings_annual" id="savings_annual_lbl">Savings Annually:</label>
-            <input class="val_res" id="savings_annual_inp" name="savings_annual_inp" value="" type="text" disabled>
         </div>
     </div>
 
@@ -197,7 +210,7 @@
         }
 
         function updateButton(id, inpStr) {
-            document.getElementById(id).innerHTML = inpStr +  " &#9661";
+            document.getElementById(id).innerHTML = inpStr + ' <i class="fa fa-caret-down" aria-hidden="true">';
             if (id == 'per_dropbtn') {
                 per = inpStr;
                 calcSavings();
@@ -206,16 +219,6 @@
                 timeSavings();
             }
             
-        }
-
-        function sizingsSmaller() {
-            document.getElementById("GrossAP_button").textContent = "G.P";
-            document.getElementById("time_inp").style.width = "45%";
-            document.getElementById("gross_inp").style.width = "45%";
-        }
-
-        if (window.innerWidth < 375) {
-            sizingsSmaller()
         }
     </script>
 </body>
